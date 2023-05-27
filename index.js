@@ -45,6 +45,17 @@ async function run() {
       res.send(result);
     });
 
+    // some data 
+    app.get('/toys-email', async(req, res) => {
+      console.log(req.query?.sellerEmail);
+      let query = {};
+      if(req.query?.sellerEmail){
+        query = {sellerEmail : req.query.sellerEmail}
+      }
+      const result = await allToysCollection.find(query).toArray();
+      res.send(result);
+    })
+
     // post/create
     app.post("/toy", async (req, res) => {
       const toys = req.body;
