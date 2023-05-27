@@ -30,7 +30,12 @@ async function run() {
     // create DB
     const allToysCollection = client.db("toysDB").collection("all_toys");
 
-    
+    // read/find All Toys after POST
+    app.get("/toys", async (req, res) => {
+      const cursor = allToysCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
 
     // post/create
     app.post("/toy", async (req, res) => {
