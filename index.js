@@ -32,7 +32,14 @@ async function run() {
 
     // read/find All Toys after POST
     app.get("/toys", async (req, res) => {
-      const cursor = allToysCollection.find();
+      let query = {};
+      if (req.query?.email) {
+        query = { email: req.query.email };
+      }
+      if (req.query?.category) {
+        query = { category: req.query.category };
+      }
+      const cursor = allToysCollection.find(query);
       const result = await cursor.toArray();
       res.send(result);
     });
@@ -42,16 +49,6 @@ async function run() {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await allToysCollection.findOne(query);
-      res.send(result);
-    });
-
-    // some data
-    app.get("/toys-email", async (req, res) => {
-      let query = {};
-      if (req.query?.email) {
-        query = { email: req.query.email };
-      }
-      const result = await allToysCollection.find(query).toArray();
       res.send(result);
     });
 
